@@ -1,0 +1,34 @@
+function maxJewels(jewelTypes, capacity) {
+    let maxValueAtEachCapacity = new Array(capacity + 1).fill(0);
+
+    for (let currentCapacity = 0; currentCapacity <= capacity; currentCapacity++) {
+        let currentMaxValue = 0;
+
+        jewelTypes.forEach(jewel =>
+        {
+
+            if (jewel.weight === 0 && jewel.value === 0) {
+                return Infinity;
+            }
+
+            if (jewel.weight <= currentCapacity) {
+                let remainder = currentCapacity - jewel.weight;
+                let maxValueWithJewel = jewel.value + maxValueAtEachCapacity[remainder];
+                currentMaxValue = Math.max(maxValueWithJewel, currentMaxValue);
+            }
+        })
+        maxValueAtEachCapacity[currentCapacity] = currentMaxValue;
+    }
+    return maxValueAtEachCapacity[capacity];
+}
+
+let j = [
+    {weight: 7, value:160},
+    {weight: 3, value: 90},
+    {weight: 2, value: 15 }
+];
+
+let capacity = 20;
+
+let answer = maxJewels(j, capacity);
+console.log(answer);

@@ -1,0 +1,40 @@
+function maxJewels2(jewels, capacity) {
+    let capacityArray = new Array(capacity + 1).fill(0);
+
+    for (let currentCapacity = 0; currentCapacity <= capacity; currentCapacity++) {
+        // for each capacity up to total, check for max value of jewels
+        let currentMax = 0;
+
+        for (let i = 0; i < jewels.length; i++) {
+            let jewel = jewels[i];
+            if (jewel.weight === 0 && jewel.value === 0) {
+                return Infinity;
+            }
+            if (jewel.weight <= currentCapacity) {
+            // find currentValue which is value of current jewel plus max value of remainder capacity
+                let remainder = currentCapacity - jewel.weight;
+                let currentValue = jewel.value + capacityArray[remainder];
+            // if currentValue is greateer than currentMax, replace for currentMax
+                currentMax =  Math.max(currentValue, currentMax);
+            }
+        }
+        // after checking all jewels for that capacity and keeping the highest value,
+        // update the array for that capacity
+        capacityArray[currentCapacity] = currentMax;
+    }
+
+    return capacityArray[capacity];
+}
+
+const jewels = [
+    {weight: 7,
+    value: 160 },
+    {weight: 3,
+    value: 90 },
+    {weight: 2,
+    value: 15}
+];
+const capacity = 20;
+
+let answer = maxJewels2(jewels, capacity);
+console.log(answer);
